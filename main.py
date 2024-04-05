@@ -58,6 +58,8 @@ from api.player import player_api
 # database migrations
 from model.users import initUsers
 from model.players import initPlayers
+from model.songs import initSongs
+
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import LabelEncoder
@@ -105,6 +107,7 @@ custom_cli = AppGroup('custom', help='Custom commands')
 def generate_data():
     initUsers()
     initPlayers()
+    initSongs()
 
 # Register the custom command group with the Flask application
 app.cli.add_command(custom_cli)
