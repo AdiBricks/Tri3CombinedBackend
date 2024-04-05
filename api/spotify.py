@@ -41,6 +41,8 @@ from api.covid import covid_api # Blueprint import api definition
 from api.joke import joke_api # Blueprint import api definition
 from api.user import user_api # Blueprint import api definition
 from api.player import player_api
+
+
 # database migrations
 from model.users import initUsers
 from model.players import initPlayers
@@ -54,19 +56,20 @@ from projects.projects import app_projects # Blueprint directory import projects
 
 spotify_api = Blueprint('spotify_api', __name__, url_prefix='/api/spotify')
 api = Api(spotify_api)
-
 class Spotify_API(Resource):
     def __init__(self):
-        # Read the Iris dataset
+        # Read the Spotify dataset
         df = pd.read_csv('spotify.csv')
 
-        # Encode the 'variety' column
+        # Initialize LabelEncoder
         self.label_encoder = LabelEncoder()
-        df['fav_song'] = self.label_encoder.fit_transform(df['fav_song'])
+        
+        # Encode the 'fav_song' column
+        df['fav_song_encoded'] = self.label_encoder.fit_transform(df['fav_song'])
 
         # Split the data into features and target
-        X = df.drop(columns=['fav_song'])
-        y = df['fav_song']
+        X = df.drop(columns=['fav_song', 'fav_song_encoded'])
+        y = df['fav_song_encoded']
 
         # Split data into train and test sets
         self.X_train, _, self.y_train, _ = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -78,9 +81,7 @@ class Spotify_API(Resource):
     def predict_song(self, pop_song, country_song, classic_song, rap_song):
         # Make prediction
         prediction = self.model.predict([[pop_song, country_song, classic_song, rap_song]])
-        # Inverse transform the encoded prediction to get original variety
-        predicted_song = self.label_encoder.inverse_transform(prediction.astype(int))
-        return predicted_song[0]
+        return prediction.astype(int)[0]
 
     def post(self):
         try:
@@ -91,10 +92,44 @@ class Spotify_API(Resource):
             classic_song = data["classic_song"]
             rap_song = data["rap_song"]
 
-            predicted_song = self.predict_song(pop_song, country_song, classic_song, rap_song)
+            # Inverse transform the predicted label
+            predicted_song_encoded = self.predict_song(pop_song, country_song, classic_song, rap_song)
+            predicted_song = self.label_encoder.inverse_transform([predicted_song_encoded])[0]
             
-            print(jsonify({'predicted_variety': predicted_song}))
-            return jsonify({'predicted_variety': predicted_song})
+            songs = [
+                {'name': 'FEIN', 'description': 'Travis Scott_'},
+                {'name': 'Creepin', 'description': 'The Weeknd'},
+                {'name': 'Role Model', 'description': ' Brent Fiaiyaz'},
+                {'name': 'Right my Wrongs', 'description': ' Bryson Tiller'},
+                {'name': 'Roar', 'description': ' Katy Perry'},
+                {'name': 'Shake it Off', 'description': ' Taylor Swift'},
+                {'name': 'Often', 'description': ' The Weeknd_'},
+                {'name': 'Thank God', 'description': ' Travis Scott'},
+                {'name': 'Badtameez Dil', 'description': ' Yeh Jawaani Hai Deewani'},
+                {'name': 'Same Old Love', 'description': ' Selena Gomez'},
+                {'name': 'Waka Waka ', 'description': ' Shakira'},
+                {'name': 'Swim', 'description': ' Chase Atlantic '},
+                {'name': 'Fireside', 'description': ' Arctic Monkeys'},
+                {'name': 'Daddy Issues', 'description': ' The Neighborhood'},
+                {'name': 'Art Deco', 'description': 'Lana Del Rey '},
+                {'name': 'The Color Violet', 'description': ' Tory Lanez '},
+                {'name': 'Light it Up', 'description': ' Major Lazer'},
+                {'name': 'Maneater', 'description': ' Nelly Furtado '},
+                {'name': 'Dark Horse', 'description': ' Katy Perry '},
+                {'name': 'Watch', 'description': ' Billie Eilish '},
+                {'name': 'Eyes Without Face', 'description': ' Billy Idol '},
+                {'name': 'Good Days', 'description': ' SZA'},
+                {'name': 'sdp interlude', 'description': 'Travis Scott '},
+                {'name': 'Mary', 'description': ' Alex G '},
+                {'name': 'Flashing Lights', 'description': 'Kanye West '},
+                {'name': 'Trust issues', 'description': 'Drake'},
+                {'name': 'Gods Plan', 'description': 'Drake '},
+                {'name': 'Time to Pretend', 'description': 'MGMT '},
+                {'name': 'Sensei Wu', 'description': ' Ian Wu Father '}
+            ]
+
+            predicted_song = songs[predicted_song]
+            return jsonify({'predicted_song': predicted_song})
         except Exception as e:
             return jsonify({'error': str(e)})
 
