@@ -1,4 +1,5 @@
 # I worked on this as part of a different repo and then for the purposes of this code, I added onto it
+# Backend file: This file sets up the functions for CRUD operations for song database 
 from flask import Blueprint, jsonify, request  # Import the 'request' object
 from flask_restful import Api, Resource, reqparse
 from __init__ import db

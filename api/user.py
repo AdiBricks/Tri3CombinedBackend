@@ -1,5 +1,5 @@
 # Outline provided by teacher. I worked on the connection between frontend and backend repos. 
-# This file sets up the functions for CRUD operations for user's database 
+# Backend file: This file sets up the functions for CRUD operations for user's database 
 
 import json, jwt
 from flask import Blueprint, request, jsonify, current_app, Response

@@ -1,5 +1,6 @@
 # Outline provided by teacher. I worked on the connection between frontend and backend repos. 
 # This file sets up the users' database 
+# Backend file: This file sets up the sqlite database for the users
 
 """ database dependencies to support sqliteDB examples """
 from random import randrange

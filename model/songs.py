@@ -1,4 +1,5 @@
 # I created this code as part of a different repo. Then for the purposes of this repo, I added and modified it to fit
+# Backend file: This file sets up the sqlite database for the songs 
 
 from __init__ import app, db
 
