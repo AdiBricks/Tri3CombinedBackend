@@ -233,9 +233,9 @@ def initUsers():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        u1 = User(name='Tanay Shah', uid='tanay1', password='123tanay', dob=date(2007, 9, 30), hashmap={"job": "inventor", "company": "GE"}, role="Admin")
-        u2 = User(name='Sumi Shrishrimal', uid='sumi1', password='123sumi', dob=date(1978, 8, 20), hashmap={"job": "inventor", "company": "Tesla"})
-        u3 = User(name='Dhawal Shah', uid='dhawal1', hashmap={"job": "inventor", "company": "ATT"})
+        u1 = User(name='Elon Musk', uid='elon1', password='123elon', dob=date(2000, 1, 1), hashmap={"job": "inventor", "company": "GE"}, role="Admin")
+        u2 = User(name='Steve Jobs', uid='steve1', password='123steve', dob=date(1978, 8, 20), hashmap={"job": "inventor", "company": "Tesla"})
+        u3 = User(name='Mark Zuckerberg', uid='mark1', hashmap={"job": "inventor", "company": "ATT"})
         users = [u1, u2, u3]
 
         """Builds sample user/note(s) data"""
