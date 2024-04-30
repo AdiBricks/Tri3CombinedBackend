@@ -1,3 +1,15 @@
+# Overview 
+
+This repo is a game and music streaming platform. It allows the user to play their favorite games while listening to their favorite music. 
+
+I contributed the Spotify/music streaming code. I created the files to create and set up where all the songs are stored (in an sqlite database), along with uploading all the songs to said database. We also have a feature that allows for users to sign in. I worked on the connection points between the frontend repo and the backend repo. 
+Song files I worked on: song.py, songs.py, sqlite.db (table: songs)
+User files I worked on: user.py, users.py, sqlite.db (table: users)
+
+Parts of this repo were provided by our teacher and are highlighted by comments. 
+Teacher repos: https://github.com/nighthawkcoders/teacher_portfolio/ , https://github.com/nighthawkcoders/cpt
+
+
 # Flask Portfolio Starter
 
 Use this project to create a Flask Servr.

@@ -1,3 +1,6 @@
+# Outline provided by teacher. I worked on the connection between frontend and backend repos. 
+# This file sets up the functions for CRUD operations for user's database 
+
 import json, jwt
 from flask import Blueprint, request, jsonify, current_app, Response
 from flask_restful import Api, Resource # used for REST API building
@@ -60,7 +63,8 @@ class UserAPI:
             users = User.query.all()    # read/extract all users from database
             json_ready = [user.read() for user in users]  # prepare output in json
             return jsonify(json_ready)  # jsonify creates Flask response object, more specific to APIs than json.dumps
-   
+
+# this function is mine (delte function)   
         @token_required("Admin")
         def delete(self, _): # Delete Method
             body = request.get_json()

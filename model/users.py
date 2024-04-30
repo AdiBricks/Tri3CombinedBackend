@@ -1,3 +1,6 @@
+# Outline provided by teacher. I worked on the connection between frontend and backend repos. 
+# This file sets up the users' database 
+
 """ database dependencies to support sqliteDB examples """
 from random import randrange
 from datetime import date
@@ -185,7 +188,7 @@ class User(db.Model):
             db.session.remove()
             return None
 
-    # CRUD read converts self to dictionary
+    
     # returns dictionary
     def read(self):
         return {
@@ -198,6 +201,7 @@ class User(db.Model):
             # "posts": [post.read() for post in self.posts]
         }
 
+# The next two functions are mine (update and delete)
     # CRUD update: updates user name, password, phone
     # returns self
     def update(self, name="", uid="", password=""):
@@ -228,11 +232,10 @@ def initUsers():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        u1 = User(name='Thomas Edison', uid='toby', password='123toby', dob=date(1847, 2, 11), hashmap={"job": "inventor", "company": "GE"}, role="Admin")
-        u2 = User(name='Nicholas Tesla', uid='niko', password='123niko', dob=date(1856, 7, 10), hashmap={"job": "inventor", "company": "Tesla"})
-        u3 = User(name='Alexander Graham Bell', uid='lex', hashmap={"job": "inventor", "company": "ATT"})
-        u4 = User(name='Grace Hopper', uid='hop', password='123hop', dob=date(1906, 12, 9), hashmap={"job": "inventor", "company": "Navy"})
-        users = [u1, u2, u3, u4]
+        u1 = User(name='Tanay Shah', uid='tanay1', password='123tanay', dob=date(2007, 9, 30), hashmap={"job": "inventor", "company": "GE"}, role="Admin")
+        u2 = User(name='Sumi Shrishrimal', uid='sumi1', password='123sumi', dob=date(1978, 8, 20), hashmap={"job": "inventor", "company": "Tesla"})
+        u3 = User(name='Dhawal Shah', uid='dhawal1', hashmap={"job": "inventor", "company": "ATT"})
+        users = [u1, u2, u3]
 
         """Builds sample user/note(s) data"""
         for user in users:
