@@ -1,7 +1,3 @@
-# Outline provided by teacher. I worked on the connection between frontend and backend repos. 
-# This file sets up the users' database 
-# Backend file: This file sets up the sqlite database for the users
-
 """ database dependencies to support sqliteDB examples """
 from random import randrange
 from datetime import date
@@ -11,7 +7,6 @@ import json
 from __init__ import app, db
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
-
 
 ''' Tutorial: https://www.sqlalchemy.org/library.html#tutorials, try to get into Python shell and follow along '''
 
@@ -23,7 +18,6 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     note = db.Column(db.Text, unique=False, nullable=False)
     image = db.Column(db.String, unique=False)
-    # Define a relationship in Notes Schema to userID who originates the note, many-to-one (many notes to one user)
     userID = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     # Constructor of a Notes object, initializes of instance variables within object
@@ -84,18 +78,20 @@ class User(db.Model):
     _dob = db.Column(db.Date)
     _hashmap = db.Column(db.JSON, unique=False, nullable=True)
     _role = db.Column(db.String(20), default="User", nullable=False)
+    _avgGrade = db.Column(db.Integer)
 
     # Defines a relationship between User record and Notes table, one-to-many (one user to many notes)
     posts = db.relationship("Post", cascade='all, delete', backref='users', lazy=True)
 
     # constructor of a User object, initializes the instance variables within object (self)
-    def __init__(self, name, uid, password="123qwerty", dob=date.today(), hashmap={}, role="User"):
+    def __init__(self, name, uid, avgGrade, password="123qwerty", dob=date.today(), hashmap={}, role="User"):
         self._name = name    # variables with self prefix become part of the object, 
         self._uid = uid
         self.set_password(password)
         self._dob = dob
         self._hashmap = hashmap
         self._role = role
+        self._avgGrade = avgGrade
 
     # a name getter method, extracts name from object
     @property
@@ -189,7 +185,7 @@ class User(db.Model):
             db.session.remove()
             return None
 
-    
+    # CRUD read converts self to dictionary
     # returns dictionary
     def read(self):
         return {
@@ -199,10 +195,10 @@ class User(db.Model):
             "dob": self.dob,
             "age": self.age,
             "hashmap": self._hashmap,
+            "avgGrade": self._avgGrade
             # "posts": [post.read() for post in self.posts]
         }
 
-# The next two functions are mine (update and delete)
     # CRUD update: updates user name, password, phone
     # returns self
     def update(self, name="", uid="", password=""):
@@ -226,17 +222,24 @@ class User(db.Model):
 
 """Database Creation and Testing """
 
-
 # Builds working data for testing
 def initUsers():
     with app.app_context():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        u1 = User(name='Elon Musk', uid='elon1', password='123elon', dob=date(2000, 1, 1), hashmap={"job": "inventor", "company": "GE"}, role="Admin")
-        u2 = User(name='Steve Jobs', uid='steve1', password='123steve', dob=date(1978, 8, 20), hashmap={"job": "inventor", "company": "Tesla"})
-        u3 = User(name='Mark Zuckerberg', uid='mark1', hashmap={"job": "inventor", "company": "ATT"})
-        users = [u1, u2, u3]
+        users = [
+            User(name='saaras', uid='1', password='123toby', dob=date(1847, 2, 11), hashmap={"class": ["AP Calculus AB", "AP World History", "Physics 1"]}, avgGrade=89),
+            User(name='sri', uid='2', password='123niko', dob=date(1856, 7, 10), hashmap={"class": ["AP Calculus AB", "World History", "Honors Humanities"]}, avgGrade=92),
+            User(name='austin', uid='3', password='123password', dob=date(1990, 3, 12), hashmap={"class": ["AP Calculus BC", "AP World History", "Honors Humanities"]}, avgGrade=91),
+            User(name='erox', uid='4', password='123hop', dob=date(1906, 12, 9), hashmap={"class": ["AP Calculus AB", "AP World History", "Honors Humanities"]}, avgGrade=94),
+            User(name='cayden', uid='5', password='123cayden', dob=date(1906, 12, 9), hashmap={"class": ["AP Calculus AB", "World History", "English 3"]}, avgGrade=95),
+            User(name='alice', uid='6', password='alice123', dob=date(2000, 5, 14), hashmap={"class": ["Biology", "Chemistry", "AP US History"]}, avgGrade=90),
+            User(name='bob', uid='7', password='bob123', dob=date(2001, 6, 15), hashmap={"class": ["Physics 1", "Honors Humanities", "AP US History"]}, avgGrade=93),
+            User(name='charlie', uid='8', password='charlie123', dob=date(2002, 7, 16), hashmap={"class": ["World History", "English 3", "Biology"]}, avgGrade=88),
+            User(name='diana', uid='9', password='diana123', dob=date(2003, 8, 17), hashmap={"class": ["Chemistry", "AP World History", "AP Calculus BC"]}, avgGrade=92),
+            User(name='ethan', uid='10', password='ethan123', dob=date(2004, 9, 18), hashmap={"class": ["AP US History", "Honors Humanities", "AP Calculus AB"]}, avgGrade=94),
+        ]
 
         """Builds sample user/note(s) data"""
         for user in users:
