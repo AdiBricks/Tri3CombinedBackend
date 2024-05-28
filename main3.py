@@ -48,4 +48,4 @@ def all_users():
     return jsonify(users=users, processed_grid=processed_grid)
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=8132)
+    app.run(debug=True, host="0.0.0.0", port=8080)
