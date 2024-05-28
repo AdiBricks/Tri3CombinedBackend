@@ -6,9 +6,6 @@ CORS(app)
 
 # Sample user data
 users = [
-    {'username': 'john_doe', 'classes': ['Math', 'Science', 'History']},
-    {'username': 'jane_doe', 'classes': ['Biology', 'Math', 'English']},
-    {'username': 'sam_smith', 'classes': ['History', 'Science', 'Math']},
     {'username': 'saaras', 'classes': ['AP Calculus AB', 'AP World History', 'Physics 1']},
     {'username': 'sri', 'classes': ['AP Calculus AB', 'World History', 'Honors Humanities']},
     {'username': 'austin', 'classes': ['AP Calculus BC', 'AP World History', 'Honors Humanities']},
